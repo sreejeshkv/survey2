@@ -1,0 +1,36 @@
+
+Add this inside your init_db.php after Phase 1 table:
+
+CREATE TABLE IF NOT EXISTS departments(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS semesters(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS batches(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+department_id INTEGER,
+semester_id INTEGER,
+academic_year TEXT
+);
+
+CREATE TABLE IF NOT EXISTS subjects(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+department_id INTEGER,
+semester_id INTEGER,
+code TEXT,
+name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS students(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+prn TEXT,
+name TEXT,
+dob TEXT,
+batch_id INTEGER,
+UNIQUE(prn,batch_id)
+);

@@ -1,0 +1,92 @@
+<?php
+require 'config.php';
+
+$db->exec("
+
+CREATE TABLE IF NOT EXISTS departments(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS semesters(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS batches(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+department_id INTEGER,
+semester_id INTEGER,
+academic_year TEXT
+);
+
+CREATE TABLE IF NOT EXISTS subjects(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+department_id INTEGER,
+semester_id INTEGER,
+code TEXT,
+name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS students(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+prn TEXT,
+name TEXT,
+dob TEXT,
+batch_id INTEGER,
+UNIQUE(prn,batch_id)
+);
+
+CREATE TABLE IF NOT EXISTS question_bank(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+question TEXT NOT NULL,
+weight INTEGER DEFAULT 1,
+allow_comment INTEGER DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS templates(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS template_questions(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+template_id INTEGER,
+question_id INTEGER,
+q_order INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS sessions(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+batch_id INTEGER,
+subject_id INTEGER,
+template_id INTEGER,
+active INTEGER DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS session_questions(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+session_id INTEGER,
+question TEXT,
+weight INTEGER,
+allow_comment INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS responses_master(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+prn TEXT,
+session_id INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS responses_detail(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+response_id INTEGER,
+question_id INTEGER,
+score INTEGER,
+comment TEXT
+);
+
+");
+
+echo "Database Fully Initialized.";
+?>
